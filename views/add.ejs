@@ -1,0 +1,85 @@
+<%- include('partials/header', { title: 'Add recipe' }) %>
+
+<section class="page-header">
+  <h1>Add a Recipe</h1>
+  <p>Fill in the details below to add a new recipe to the collection.</p>
+</section>
+
+<section class="add-form-section">
+  <% if (success) { %>
+    <div class="alert alert-success">✅ Recipe added successfully! <a href="/recipes">View all recipes</a></div>
+  <% } %>
+  <% if (error) { %>
+    <div class="alert alert-error">❌ <%= error %></div>
+  <% } %>
+
+  <form action="/add" method="POST" id="addForm">
+    <div class="form-group">
+      <label for="name">Recipe Name</label>
+      <input type="text" id="name" name="name" placeholder="e.g. Chicken Katsu" required />
+      <span class="form-error" id="nameError"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="protein">Protein Type</label>
+      <select id="protein" name="protein" required>
+        <option value="">-- Select a protein --</option>
+        <option value="Chicken">Chicken</option>
+        <option value="Beef">Beef</option>
+        <option value="Pork">Pork</option>
+        <option value="Seafood">Seafood</option>
+        <option value="Tofu">Tofu</option>
+        <option value="Grains">Grains</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Short Description</label>
+      <textarea id="description" name="description" rows="2" placeholder="A brief description of the dish..." required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="instructions">Instructions</label>
+      <textarea id="instructions" name="instructions" rows="6" placeholder="1. Step one&#10;2. Step two&#10;3. Step three" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Ingredients</label>
+      <div id="ingredient-rows">
+        <div class="ingredient-row">
+          <select name="ingredient_ids[]">
+            <option value="">-- Select ingredient --</option>
+            <% ingredients.forEach(ing => { %>
+              <option value="<%= ing.id %>"><%= ing.name %></option>
+            <% }) %>
+          </select>
+          <input type="text" name="quantities[]" placeholder="Quantity (e.g. 2 cups)" />
+        </div>
+      </div>
+      <button type="button" class="btn btn-sm" onclick="addIngredientRow()">+ Add Another Ingredient</button>
+    </div>
+
+    <button type="submit" class="btn">Submit Recipe</button>
+  </form>
+</section>
+
+<script>
+const ingredientOptions = `<% ingredients.forEach(ing => { %><option value="<%= ing.id %>"><%= ing.name %></option><% }) %>`;
+
+function addIngredientRow() {
+  const container = document.getElementById('ingredient-rows');
+  const row = document.createElement('div');
+  row.className = 'ingredient-row';
+  row.innerHTML = `
+    <select name="ingredient_ids[]">
+      <option value="">-- Select ingredient --</option>
+      ${ingredientOptions}
+    </select>
+    <input type="text" name="quantities[]" placeholder="Quantity (e.g. 2 cups)" />
+    <button type="button" class="remove-btn" onclick="this.parentElement.remove()">✕</button>
+  `;
+  container.appendChild(row);
+}
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,38 @@
+<%- include('partials/header', { title: "Ben's Kitchen - All Recipes" }) %>
+
+<section class="page-header">
+  <h1>All Recipes</h1>
+  <p>Browse by protein type, or search below.</p>
+  <input type="text" id="search" placeholder="Search recipes..." class="search-input" />
+</section>
+
+<section class="recipe-listing">
+  <% Object.keys(grouped).forEach(protein => { %>
+    <div class="protein-group" data-protein="<%= protein %>">
+      <div class="protein-heading" onclick="toggleGroup(this)">
+        <h2><%= protein %></h2>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <table class="recipe-table">
+        <thead>
+          <tr>
+            <th>Recipe</th>
+            <th>Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% grouped[protein].forEach(recipe => { %>
+            <tr class="recipe-row" data-name="<%= recipe.name.toLowerCase() %>">
+              <td class="recipe-name"><%= recipe.name %></td>
+              <td class="recipe-desc"><%= recipe.description %></td>
+              <td><a href="/recipe/<%= recipe.id %>" class="btn btn-sm">View →</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% }) %>
+</section>
+
+<%- include('partials/footer') %>

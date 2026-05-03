@@ -1,0 +1,91 @@
+CREATE DATABASE IF NOT EXISTS recipes_db;
+USE recipes_db;
+
+DROP TABLE IF EXISTS recipe_ingredients;
+DROP TABLE IF EXISTS recipes;
+DROP TABLE IF EXISTS ingredients;
+
+CREATE TABLE ingredients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  info TEXT NOT NULL
+);
+
+CREATE TABLE recipes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  protein VARCHAR(50) NOT NULL,
+  description TEXT,
+  instructions TEXT,
+  image_url VARCHAR(255)
+);
+
+CREATE TABLE recipe_ingredients (
+  recipe_id INT,
+  ingredient_id INT,
+  quantity VARCHAR(50),
+  FOREIGN KEY (recipe_id) REFERENCES recipes(id),
+  FOREIGN KEY (ingredient_id) REFERENCES ingredients(id)
+);
+
+-- Ingredients
+INSERT INTO ingredients (name, info) VALUES
+('Chicken thighs', 'Thighs are more flavorful than breasts due to higher fat content. Always cook to 165°F internal temperature.'),
+('Panko breadcrumbs', 'Japanese-style breadcrumbs that are coarser and crispier than regular breadcrumbs. Originated in Japan during WWII.'),
+('Soy sauce', 'A fermented condiment originating in China over 2,000 years ago. High in sodium — use low-sodium versions to control salt levels.'),
+('Eggs', 'Used as a binding agent in breading. Always crack into a separate bowl first to avoid shell contamination.'),
+('Vegetable oil', 'Neutral oil with a high smoke point, great for frying. Smoke point is around 400–450°F.'),
+('Tonkatsu sauce', 'A thick Japanese condiment similar to Worcestershire sauce. Made from fruits and vegetables with a sweet-savory flavor.'),
+('Beef sirloin', 'A lean cut from the rear of the cow. Best sliced thin against the grain for tenderness.'),
+('White rice', 'A staple grain eaten by over half the world\'s population. Rinse before cooking to remove excess starch for fluffier results.'),
+('Sesame oil', 'Pressed from sesame seeds, this oil has a rich nutty aroma. Originates from Africa and India. Used as a finishing oil, not for cooking.'),
+('Green onions', 'Also called scallions. Both the white and green parts are edible. Native to Central Asia.'),
+('Garlic', 'One of the oldest cultivated plants, used for over 5,000 years. Has natural antimicrobial properties.'),
+('Ginger', 'A root native to Southeast Asia. Known for aiding digestion and reducing nausea. Store in the freezer for longer shelf life.'),
+('Pork loin', 'A lean, mild cut from the back of the pig. Easy to overcook — pull from oven at 145°F internal temperature.'),
+('Rosemary', 'An aromatic herb from the Mediterranean. Believed to improve memory and concentration. Pairs naturally with pork and lamb.'),
+('Olive oil', 'Pressed from olives, a staple of Mediterranean cooking. Extra virgin is the least processed and most flavorful variety.'),
+('Garlic powder', 'Dried and ground garlic. More convenient than fresh but less pungent. Shelf stable for up to 3 years.'),
+('Salmon fillet', 'Rich in omega-3 fatty acids. Wild-caught tends to be leaner and more flavorful than farmed. Cook to 125–130°F for medium.'),
+('Lemon', 'High in vitamin C. The zest contains essential oils that are more intensely flavored than the juice.'),
+('Paprika', 'Ground dried red peppers originating from Central Mexico, popularized in Hungarian cuisine. Adds color and mild sweetness.'),
+('Butter', 'Made from churned cream. Adds richness and depth to sauces and roasted dishes. Brown butter adds a nutty flavor.');
+
+-- Recipes
+INSERT INTO recipes (name, protein, description, instructions) VALUES
+('Chicken Katsu', 'Chicken',
+ 'Crispy Japanese-style breaded chicken cutlets served with tangy tonkatsu sauce and steamed rice. A comfort food staple.',
+ '1. Pound chicken thighs to even thickness.\n2. Season with salt and pepper.\n3. Dredge in flour, dip in beaten egg, then coat with panko breadcrumbs.\n4. Heat vegetable oil in a pan over medium-high heat.\n5. Fry chicken for 4–5 minutes per side until golden and cooked through.\n6. Drain on paper towels, slice, and serve with tonkatsu sauce and rice.'),
+
+('Beef Rice Bowl', 'Beef',
+ 'Savory Japanese-inspired beef over fluffy white rice, seasoned with soy sauce, sesame oil, and fresh ginger. Quick and satisfying.',
+ '1. Cook white rice according to package instructions.\n2. Slice beef sirloin thin against the grain.\n3. Sauté garlic and ginger in sesame oil over medium-high heat.\n4. Add beef and cook for 2–3 minutes until browned.\n5. Add soy sauce and a pinch of sugar, stir to coat.\n6. Serve over rice and garnish with sliced green onions.'),
+
+('Roast Pork Loin', 'Pork',
+ 'Herb-crusted pork loin roasted to juicy perfection. Simple ingredients, impressive results — great for a weeknight dinner.',
+ '1. Preheat oven to 400°F.\n2. Pat pork loin dry and rub all over with olive oil.\n3. Mix garlic powder, rosemary, salt, and pepper; press onto all sides.\n4. Sear in an oven-safe pan over high heat, 2 minutes per side.\n5. Transfer to oven and roast for 20–25 minutes until internal temp reaches 145°F.\n6. Rest for 10 minutes before slicing.'),
+
+('Roasted Salmon', 'Seafood',
+ 'Buttery oven-roasted salmon with lemon and paprika. Ready in under 20 minutes and packed with omega-3s.',
+ '1. Preheat oven to 425°F.\n2. Place salmon fillets skin-side down on a lined baking sheet.\n3. Rub with softened butter and season with paprika, salt, and pepper.\n4. Squeeze lemon juice over the top.\n5. Roast for 12–15 minutes until salmon flakes easily with a fork.\n6. Finish with lemon zest and serve immediately.');
+
+-- Recipe Ingredients
+-- Chicken Katsu (id=1)
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity) VALUES
+(1, 1, '4 pieces'), (1, 2, '1 cup'), (1, 4, '2 large'),
+(1, 5, '1/2 cup'), (1, 6, 'to serve');
+
+-- Beef Rice Bowl (id=2)
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity) VALUES
+(2, 7, '1 lb'), (2, 8, '2 cups'), (2, 3, '3 tbsp'),
+(2, 9, '1 tsp'), (2, 10, '3 stalks'), (2, 11, '3 cloves'), (2, 12, '1 tsp');
+
+-- Roast Pork Loin (id=3)
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity) VALUES
+(3, 13, '2 lb'), (3, 14, '1 tbsp'), (3, 15, '2 tbsp'),
+(3, 16, '1 tsp'), (3, 11, '4 cloves');
+
+-- Roasted Salmon (id=4)
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity) VALUES
+(4, 17, '4 fillets'), (4, 18, '1 lemon'), (4, 19, '1 tsp'),
+(4, 20, '2 tbsp');

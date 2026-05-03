@@ -1,0 +1,42 @@
+<%- include('partials/header', { title: recipe.name + " - Ben's Kitchen" }) %>
+
+<section class="recipe-page">
+  <div class="recipe-top">
+    <a href="/recipes" class="back-link">← Back to Recipes</a>
+    <span class="protein-badge"><%= recipe.protein %></span>
+  </div>
+
+  <h1><%= recipe.name %></h1>
+  <p class="recipe-description"><%= recipe.description %></p>
+
+  <div class="recipe-body">
+    <div class="ingredients-panel">
+      <h2>Ingredients</h2>
+      <p class="hover-tip">💡 Hover over an ingredient to learn more</p>
+      <ul class="ingredient-list">
+        <% ingredients.forEach(ing => { %>
+          <li class="ingredient-item">
+            <span class="ingredient-name" data-info="<%= ing.info %>">
+              <%= ing.name %>
+            </span>
+            <span class="ingredient-qty"><%= ing.quantity %></span>
+            <div class="ingredient-popup"><%= ing.info %></div>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <div class="instructions-panel">
+      <h2>Instructions</h2>
+      <ol class="instruction-list">
+        <% recipe.instructions.split('\n').forEach(step => { %>
+          <% if (step.trim()) { %>
+            <li><%= step.replace(/^\d+\.\s*/, '') %></li>
+          <% } %>
+        <% }) %>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
