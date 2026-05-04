@@ -18,3 +18,8 @@ Prerequisites
 8. Configure your database password in db.js
 9. Run the app: node app.js
 Then open your browser to: http://localhost:3000
+
+This system was developed with help from AI for the following components of the process: editing, code generation
+
+Almost all of the database integration was aided or done completely by AI. I used AI to edit my ejs syntax but the ideas were
+otherwise mine. The styling was partly aided by AI to quicken the development process.
